@@ -1,13 +1,13 @@
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import react from '@vitejs/plugin-react';
 import { COMPANY_NAME } from './src/config/branding.js';
 
-const contentSecurityPolicy = [
+const buildContentSecurityPolicy = (apiOrigin) => [
   "default-src 'self'",
   "script-src 'self'",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
-  "connect-src 'self' https://clubgemabackend-production.up.railway.app",
+  `connect-src 'self' ${apiOrigin}`.trim(),
   "font-src 'self' data:",
   "object-src 'none'",
   "base-uri 'self'",
@@ -17,7 +17,13 @@ const contentSecurityPolicy = [
 ].join('; ');
 
 // https://vite.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => {
+  // El origen del backend sale de VITE_API_URL (Render lo expone en process.env)
+  const { VITE_API_URL } = loadEnv(mode, process.cwd(), 'VITE_');
+  const apiOrigin = VITE_API_URL ? new URL(VITE_API_URL).origin : '';
+  const contentSecurityPolicy = buildContentSecurityPolicy(apiOrigin);
+
+  return {
   plugins: [
     react(),
     // Inyecta el nombre de marca en index.html (fuente única: src/config/branding.js)
@@ -44,4 +50,5 @@ export default defineConfig({
   server: {
     allowedHosts: true,
   },
+};
 });
