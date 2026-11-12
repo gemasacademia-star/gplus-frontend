@@ -261,7 +261,7 @@ const AdminSchedule = ({ onBack, initialData }) => {
                             </button>
                         </div>
                         <div className="p-6 space-y-4 overflow-y-auto custom-scrollbar">
-                            {bloques.map((bloque, index) => (
+                            {bloques.map((bloque) => (
                                 <div key={bloque.id} className="space-y-3 bg-brand-bg p-4 rounded-2xl border border-brand-border-soft relative group hover:bg-brand-surface hover:border-blue-100 transition-all">
                                     {bloques.length > 1 && (
                                         <button

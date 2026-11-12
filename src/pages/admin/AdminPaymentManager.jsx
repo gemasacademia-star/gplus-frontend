@@ -29,7 +29,7 @@ const AdminPaymentManager = () => {
 
     // 🔥 NUEVO: data del endpoint /caja/resumen-anual (12 meses, desglosado por tipo)
     const [resumenAnual, setResumenAnual] = useState([]);
-    const [loadingResumen, setLoadingResumen] = useState(true);
+    const [, setLoadingResumen] = useState(true);
 
     const fetchPayments = async () => {
         try {

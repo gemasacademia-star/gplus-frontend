@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { Outlet, Navigate, useLocation } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 import MobileNavbar from '../components/MobileNavbar';
 import { useAuth } from '../context/AuthContext';
 import StudentSidebar from '../components/student/StudentSidebar';

@@ -5,12 +5,6 @@ import { COMPANY_NAME, COMPANY_DEV_NAME, CONTACT_EMAIL } from "../config/brandin
 import { THEME_ASSETS } from "../config/themeAssets.js";
 
 const Footer = () => {
-  const quickLinks = [
-    { name: 'Sobre Nosotros', path: '/about' },
-    { name: 'Planes', path: '/pricing' },
-    { name: 'Blog Deportivo', path: '/blog' },
-  ];
-
   return (
     <footer className="bg-brand-primary-dark pt-24 pb-12 px-6 border-t border-white/5">
       <div className="max-w-7xl mx-auto">

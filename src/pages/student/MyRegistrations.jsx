@@ -10,7 +10,7 @@ import { API_ROUTES } from '../../constants/apiRoutes';
 import toast from 'react-hot-toast';
 import ConfirmModal from '../../components/shared/ConfirmModal';
 import { useAuth } from '../../context/AuthContext';
-import { format } from 'date-fns';
+import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { parseDateOnly, toDateKey, esFechaValida, ultimaClaseProgramada } from '../../utils/enrollmentCycle';
 import { useFetch } from '../../hooks/useFetch';

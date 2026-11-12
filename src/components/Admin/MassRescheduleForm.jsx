@@ -18,7 +18,7 @@ const DIAS_SEMANA = { 1: 'Lunes', 2: 'Martes', 3: 'Miércoles', 4: 'Jueves', 5: 
 
 const MassRescheduleForm = ({ onSuccess }) => {
     const [horarios, setHorarios] = useState([]);
-    const [isLoadingHorarios, setIsLoadingHorarios] = useState(true);
+    const [, setIsLoadingHorarios] = useState(true);
     const [fechasDisponibles, setFechasDisponibles] = useState([]);
     const [isLoadingFechas, setIsLoadingFechas] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);

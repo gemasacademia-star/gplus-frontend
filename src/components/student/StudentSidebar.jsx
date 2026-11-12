@@ -13,7 +13,7 @@ import { COMPANY_NAME } from '../../config/branding';
 
 const StudentSidebar = () => {
   const location = useLocation();
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
   const [hasNewNews, setHasNewNews] = useState(false);
 
   const [openMenus, setOpenMenus] = useState({

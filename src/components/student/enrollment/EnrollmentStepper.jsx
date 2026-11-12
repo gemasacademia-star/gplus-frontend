@@ -16,7 +16,6 @@ import StepIndicator from './StepIndicator';
 import StepModalidadSede from './steps/StepModalidadSede';
 import StepHorarioFechas from './steps/StepHorarioFechas';
 import StepCheckout from './steps/StepCheckout';
-import { beneficioService } from '../../../services/beneficio.service';
 import alumnoService from '../../../services/alumno.service';
 
 const EnrollmentStepper = ({ userId, onSuccess, beneficios }) => {

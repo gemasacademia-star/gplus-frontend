@@ -13,7 +13,7 @@ import { THEME_ASSETS } from "../config/themeAssets.js";
 import { COMPANY_NAME } from '../config/branding';
 
 const MobileNavbar = () => {
-  const { user, logout } = useAuth();
+  const { logout } = useAuth();
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [hasNewNews, setHasNewNews] = useState(false);

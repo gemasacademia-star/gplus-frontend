@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { X, Save, Loader2, KeyRound, Eye, EyeOff } from 'lucide-react';
 import apiFetch from '../../interceptors/api.js';
 import toast from 'react-hot-toast';
@@ -46,7 +46,7 @@ const ChangePasswordModal = ({ isOpen, onClose, userId }) => {
         setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         onClose();
       } else {
-        const result = await resetPasswordByAdmin({ userId, newPassword: formData.newPassword });
+        await resetPasswordByAdmin({ userId, newPassword: formData.newPassword });
         toast.success("¡Contraseña actualizada con éxito!");
         setFormData({ currentPassword: '', newPassword: '', confirmPassword: '' });
         onClose();

@@ -108,7 +108,7 @@ function Register() {
             const generatedUsername = response.data?.username;
             const displayUsername = generatedUsername || "Usuario";
             toast.success(
-                (t) => (<span>¡Bienvenido! Tu usuario es: <b>{displayUsername}</b></span>),
+                () => (<span>¡Bienvenido! Tu usuario es: <b>{displayUsername}</b></span>),
                 { id: toastId, duration: 10000 }
             );
             navigate('/login', {

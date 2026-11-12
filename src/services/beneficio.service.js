@@ -8,7 +8,6 @@ export const beneficioService = {
         const response = await apiFetch.get(`/beneficioPendiente/alumno/${idAlumno}`);
 
         const result = await parseJsonResponse(response, 'Error al obtener el beneficios del alumno');
-        console.log(result.data)
         return result.data || [];
     },
 };

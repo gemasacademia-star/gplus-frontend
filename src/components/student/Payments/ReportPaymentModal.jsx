@@ -12,7 +12,6 @@ const ReportPaymentModal = ({ isOpen, onClose, debt, monto, onSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [voucherFile, setVoucherFile] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
-  const [copiedField, setCopiedField] = useState("");
   const [formData, setFormData] = useState({
     metodo_pago: "YAPE",
     monto: ""
@@ -29,13 +28,6 @@ const ReportPaymentModal = ({ isOpen, onClose, debt, monto, onSuccess }) => {
   // Lógicas de método de pago
   const esEfectivo = formData.metodo_pago === "EFECTIVO";
   const esTarjeta = formData.metodo_pago === "TARJETA";
-
-  const handleCopy = (text, field) => {
-    navigator.clipboard.writeText(text);
-    setCopiedField(field);
-    toast.success("Copiado al portapapeles");
-    setTimeout(() => setCopiedField(""), 2000);
-  };
 
   if (!isOpen || !debt) return null;
 

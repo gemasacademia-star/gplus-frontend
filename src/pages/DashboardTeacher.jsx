@@ -66,7 +66,7 @@ const DashboardTeacher = () => {
           ins.registros_asistencia.forEach(reg => {
             const fechaObj = new Date(reg.fecha);
             const fechaKey = reg.fecha.split('T')[0];
-            const fechaDate = fechaObj.setHours(0, 0, 0, 0);
+            fechaObj.setHours(0, 0, 0, 0);
 
             // Override time if this specific date has custom override columns
             let timeRange = baseTimeRange;

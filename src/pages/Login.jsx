@@ -30,7 +30,7 @@ function Login() {
       const data = await loginService(identifier, password);
       if (!data || !data.user) throw new Error("Respuesta del servidor incompleta");
       login(data);
-      const { rol, nombres, debeCompletarEmail } = data.user;
+      const { rol, nombres } = data.user;
       toast.success(`¡Bienvenido, ${nombres}!`, { id: toastId });
       const routes = {
         'Administrador': '/dashboard/admin/payment-validation',
@@ -41,6 +41,7 @@ function Login() {
       navigate(targetRoute);
     } catch (error) {
       const serverMessage = error?.message || "Error de conexión";
+      // eslint-disable-next-line no-control-regex -- quita codigos de color ANSI del mensaje del servidor
       const cleanMessage = serverMessage.replace(/\x1B\[[0-9;]*m/g, "");
       toast.error(cleanMessage, {
         id: toastId,

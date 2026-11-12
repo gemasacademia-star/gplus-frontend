@@ -76,7 +76,7 @@ const RenovarPlanHistoricoModal = ({ plan, alumnoId, onClose, onSuccess }) => {
           </div>
         ) : (
           <div className="bg-brand-bg rounded-2xl p-4 flex justify-between items-center">
-            <span className="text-[10px] font-black uppercase text-brand-muted">Precio vigente</span>
+            <span className="text-[10px] font-black uppercase text-brand-muted">Precio de tu plan</span>
             <span className="text-lg font-black text-brand-primary">S/ {Number(plan.concepto_vigente.precio_base).toFixed(2)}</span>
           </div>
         )}

@@ -10,7 +10,6 @@ import {
 } from 'lucide-react';
 import apiFetch from '../../interceptors/api';
 import { API_ROUTES } from '../../constants/apiRoutes';
-import toast from 'react-hot-toast';
 import LoadingSpinner from '../shared/LoadingSpinner';
 import EmptyState from '../shared/EmptyState';
 

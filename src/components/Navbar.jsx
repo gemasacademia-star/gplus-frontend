@@ -19,7 +19,6 @@ const Navbar = () => {
 
   const currentUser = user?.user || user;
   const firstName = currentUser?.nombres ? currentUser.nombres.split(' ')[0] : null;
-  const initial = firstName ? firstName.charAt(0).toUpperCase() : '';
 
   const getDashboardPath = () => {
     if (!currentUser) return '/login';
