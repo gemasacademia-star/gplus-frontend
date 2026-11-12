@@ -12,7 +12,13 @@ const StepCheckout = ({
   precioBase, beneficios, submitError, onBack, merchAgotado, submitting, onContinuarSinMerch, onRevisarMerch,
 }) => {
   const esMensual = state.modalidad === MODALIDAD.MENSUAL;
-  const nivelNombre = derived.niveles.find(n => n.id === state.nivelId)?.nombre;
+  const nivelesElegidos = esMensual
+    ? [...new Set((derived.horariosElegidos || []).map((h) => h.nivel?.nombre).filter(Boolean))]
+    : [];
+  const nivelNombre =
+    nivelesElegidos.length > 0
+      ? nivelesElegidos.join(' + ')
+      : derived.niveles.find((n) => n.id === state.nivelId)?.nombre;
   const horarioUnico = derived.horariosFiltrados.find(h => h.id === state.unica.horarioId);
 
   // El merch es opcional en ambas modalidades: sin stock no se muestra nada, y con stock

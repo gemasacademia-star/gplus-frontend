@@ -4,7 +4,12 @@ import { formatearFecha, obtenerRangoCiclo, getEstadoPagoBadge, getEstadoInscrip
 import { formatBrandingText } from '../../../../utils/formatBrandingText';
 
 const CicloRegularCard = ({ ciclo }) => {
-    const estadosInscripcion = [...new Set((ciclo.inscripciones || []).map(i => i.estado))];
+    const inscripciones = ciclo.inscripciones || [];
+    const estadosInscripcion = [...new Set(inscripciones.map(i => i.estado))];
+    const sedesUnicas = [...new Set(inscripciones.map(i => i.sede).filter(Boolean))];
+    const nivelesUnicos = [...new Set(inscripciones.map(i => i.nivel).filter(Boolean))];
+    const profesoresUnicos = [...new Set(inscripciones.map(i => i.profesor).filter(p => p && p !== 'S/D'))];
+    const esInterSedes = sedesUnicas.length > 1;
 
     return (
         <div className="bg-brand-surface border-2 border-slate-50 rounded-2xl p-5 hover:border-blue-100 hover:shadow-md transition-all relative overflow-hidden">
@@ -19,26 +24,36 @@ const CicloRegularCard = ({ ciclo }) => {
                                 <Layers size={9} /> x{ciclo.horarios.length} horarios
                             </span>
                         )}
+                        {esInterSedes && (
+                            <span className="text-[8px] font-black text-brand-gold-dark bg-brand-gold-soft px-1.5 py-1 rounded-md border border-brand-gold/40 uppercase tracking-widest">
+                                Inter-Sedes
+                            </span>
+                        )}
                     </div>
 
                     <p className="text-sm font-black text-brand-body uppercase italic mt-2">
-                        SEDE {formatBrandingText(ciclo.inscripciones?.[0]?.sede || 'S/D')}
+                        {esInterSedes ? `SEDES: ${sedesUnicas.join(' + ')}` : `SEDE ${sedesUnicas[0] || 'S/D'}`}
                     </p>
 
                     <div className="text-[10px] font-bold text-brand-muted flex items-center gap-1.5 mt-1 min-w-0">
                         <User size={11} className="text-brand-muted shrink-0" />
                         <span className="truncate">
-                            {ciclo.inscripciones?.[0]?.nivel || 'S/D'}
-                            {ciclo.inscripciones?.[0]?.profesor ? ` · ${ciclo.inscripciones[0].profesor}` : ''}
+                            {nivelesUnicos.join(' / ') || 'S/D'}
+                            {profesoresUnicos.length > 0 ? ` · ${profesoresUnicos.join(', ')}` : ''}
                         </span>
                     </div>
 
                     {ciclo.horarios?.length > 0 && (
                         <div className="flex flex-col gap-1 mt-2">
                             {ciclo.horarios.map((h, i) => (
-                                <div key={i} className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 uppercase">
-                                    <Clock size={12} className="text-blue-400" />
-                                    {h.dia} {h.hora_inicio}-{h.hora_fin}
+                                <div key={i} className="flex items-center gap-1.5 text-[10px] font-bold text-slate-500 uppercase flex-wrap">
+                                    <Clock size={12} className="text-brand-accent shrink-0" />
+                                    <span>{h.dia} {h.hora_inicio}-{h.hora_fin}</span>
+                                    {esInterSedes && h.sede && (
+                                        <span className="text-[8px] font-black text-brand-primary bg-brand-primary-soft px-1.5 py-0.5 rounded uppercase">
+                                            {h.sede}
+                                        </span>
+                                    )}
                                 </div>
                             ))}
                         </div>

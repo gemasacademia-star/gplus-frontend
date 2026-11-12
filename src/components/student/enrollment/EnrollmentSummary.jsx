@@ -22,21 +22,41 @@ const Row = ({ icon: Icon, label, children }) => (
 );
 
 const EnrollmentSummary = ({ modalidad, sede, nivelNombre, horarios, fechaInicio, fechaUnica, horarioUnico, precioBase, beneficios, extras }) => {
-  const total = precioBase == null ? null : (precioBase + extras.reduce((acc, e) => acc + e.price, 0) - beneficios.reduce((acc, b) => acc + (b.tipos_beneficio?.valor_por_defecto || 0), 0));
+  const total = precioBase == null ? null : (Number(precioBase) + extras.reduce((acc, e) => acc + Number(e.price || 0), 0) - beneficios.reduce((acc, b) => acc + Number(b.tipos_beneficio?.valor_por_defecto || 0), 0));
   const esMensual = modalidad === MODALIDAD.MENSUAL;
+
+  const sedesReales = esMensual
+    ? [...new Set((horarios || []).map((h) => h.cancha?.sede?.nombre).filter(Boolean))]
+    : [];
+  const esMultiSede = sedesReales.length > 1;
+  const textoSedes = sedesReales.length > 0 ? sedesReales.join(' + ') : sede;
+  const textoDias = (horarios || [])
+    .map((h) => {
+      const dia = DIAS_CORTOS[h.dia_semana];
+      const sedeHorario = h.cancha?.sede?.nombre;
+      return esMultiSede && sedeHorario ? `${dia} (${sedeHorario})` : dia;
+    })
+    .join(' + ');
 
   return (
     <div className="bg-brand-surface rounded-[2.5rem] p-8 border-2 border-brand-border-soft space-y-6">
-      <span className="px-4 py-1.5 rounded-xl text-[10px] font-black uppercase italic tracking-widest bg-brand-accent text-white">
-        {esMensual ? 'Matrícula mensual' : 'Clase única'}
-      </span>
+      <div className="flex items-center gap-2 flex-wrap">
+        <span className="px-4 py-1.5 rounded-xl text-[10px] font-black uppercase italic tracking-widest bg-brand-accent text-white">
+          {esMensual ? 'Matrícula mensual' : 'Clase única'}
+        </span>
+        {esMultiSede && (
+          <span className="px-3 py-1.5 rounded-xl text-[10px] font-black uppercase italic tracking-widest bg-brand-primary text-brand-gold">
+            Modalidad Inter-Sedes
+          </span>
+        )}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        <Row icon={MapPin} label="Sede">{formatBrandingText(sede)}</Row>
+        <Row icon={MapPin} label={esMultiSede ? 'Sedes' : 'Sede'}>{textoSedes}</Row>
         <Row icon={Trophy} label="Nivel">{nivelNombre}</Row>
         {esMensual ? (
           <>
-            <Row icon={CalendarDays} label="Días">{horarios.map(h => DIAS_CORTOS[h.dia_semana]).join(' + ')}</Row>
+            <Row icon={CalendarDays} label="Días">{textoDias}</Row>
             <Row icon={Clock} label="Empiezas">{fechaLarga(fechaInicio)}</Row>
           </>
         ) : (
@@ -73,7 +93,7 @@ const EnrollmentSummary = ({ modalidad, sede, nivelNombre, horarios, fechaInicio
           </span>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 
