@@ -9,6 +9,7 @@ import EnrollmentStepper from '../../components/student/enrollment/EnrollmentSte
 import OutstandingDebtAlert from '../../components/student/OutstandingDebtAlert';
 import ReportPaymentModal from "../../components/student/Payments/ReportPaymentModal";
 import { COMPANY_NAME } from '../../config/branding';
+import { beneficioService } from '../../services/beneficio.service';
 
 const Enrollment = () => {
   const { userId } = useAuth();
@@ -22,6 +23,11 @@ const Enrollment = () => {
     () => (userId ? enrollmentService.deudaPendiente(userId) : null),
     [userId],
     { errorMessage: `Error de sincronización ${COMPANY_NAME}` }
+  );
+  const { data: beneficios, refetch: recargarBeneficios } = useFetch(
+    async () => await beneficioService.getBeneficios(userId) || [],
+    [userId],
+    { initialData: [] }
   );
 
   const handleOpenPayment = (debt) => {
@@ -49,7 +55,7 @@ const Enrollment = () => {
             </div>
             <OutstandingDebtAlert
               pendingPayment={pendingPayment}
-              onRefresh={refetchDeuda}
+              onRefresh={() => { refetchDeuda(); recargarBeneficios() }}
               onPay={handleOpenPayment}
             />
           </div>
@@ -68,7 +74,7 @@ const Enrollment = () => {
             </h1>
           </header>
 
-          <EnrollmentStepper key={stepperKey} userId={userId} onSuccess={handleEnrolled} />
+          <EnrollmentStepper key={stepperKey} userId={userId} onSuccess={handleEnrolled} beneficios={beneficios} />
         </div>
       </div>
 

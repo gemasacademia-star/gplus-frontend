@@ -9,7 +9,7 @@ import EnrollmentSummary from '../EnrollmentSummary';
 
 const StepCheckout = ({
   state, derived, extras, onExtrasChange, catalogoMerch, merchDisponible, ownedMerchCounts, sedes, sedeRecojoId,
-  precioBase, submitError, onBack, merchAgotado, submitting, onContinuarSinMerch, onRevisarMerch,
+  precioBase, beneficios, submitError, onBack, merchAgotado, submitting, onContinuarSinMerch, onRevisarMerch,
 }) => {
   const esMensual = state.modalidad === MODALIDAD.MENSUAL;
   const nivelNombre = derived.niveles.find(n => n.id === state.nivelId)?.nombre;
@@ -20,9 +20,9 @@ const StepCheckout = ({
   const quiereMerch = merchDisponible && extras.quiereMerch === true;
   const extrasElegidos = quiereMerch
     ? cartLines(catalogoMerch, extras.merchQty).map(({ item, qty, subtotal }) => ({
-        label: qty > 1 ? `${item.nombre} × ${qty}` : item.nombre,
-        price: subtotal,
-      }))
+      label: qty > 1 ? `${item.nombre} × ${qty}` : item.nombre,
+      price: subtotal,
+    }))
     : [];
 
   const esMerchSeleccionado = extrasElegidos.length > 0;
@@ -96,6 +96,7 @@ const StepCheckout = ({
         fechaUnica={state.unica.fecha}
         horarioUnico={horarioUnico}
         precioBase={precioBase}
+        beneficios={beneficios}
         extras={extrasElegidos}
       />
 

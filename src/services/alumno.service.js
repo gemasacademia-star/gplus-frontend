@@ -36,6 +36,12 @@ const alumnoService = {
     const response = await apiFetch.post(API_ROUTES.ALUMNOS.CAMBIAR_HISTORIAL, payload);
     const result = await parseJsonResponse(response, 'Error al cambiar el historial académico del alumno');
     return result;
+  },
+
+  verificarAntiguedad: async () => {
+    const response = await apiFetch.get(API_ROUTES.ALUMNOS.VERIFICAR_ANTIGUEDAD);
+    const result = await parseJsonResponse(response, `Error al verificar antiguedad`);
+    return result.data;
   }
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { MapPin, Trophy, CalendarDays, Clock } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { es } from 'date-fns/locale';
@@ -21,8 +21,8 @@ const Row = ({ icon: Icon, label, children }) => (
   </div>
 );
 
-const EnrollmentSummary = ({ modalidad, sede, nivelNombre, horarios, fechaInicio, fechaUnica, horarioUnico, precioBase, extras }) => {
-  const total = precioBase == null ? null : precioBase + extras.reduce((acc, e) => acc + e.price, 0);
+const EnrollmentSummary = ({ modalidad, sede, nivelNombre, horarios, fechaInicio, fechaUnica, horarioUnico, precioBase, beneficios, extras }) => {
+  const total = precioBase == null ? null : (precioBase + extras.reduce((acc, e) => acc + e.price, 0) - beneficios.reduce((acc, b) => acc + (b.tipos_beneficio?.valor_por_defecto || 0), 0));
   const esMensual = modalidad === MODALIDAD.MENSUAL;
 
   return (
@@ -53,6 +53,14 @@ const EnrollmentSummary = ({ modalidad, sede, nivelNombre, horarios, fechaInicio
             <span>{esMensual ? 'Matrícula' : 'Clase única'}</span><span>{soles(precioBase)}</span>
           </div>
         )}
+        {beneficios.map(b => (
+          <div key={b.id} className="flex justify-between text-[11px] font-black uppercase italic text-emerald-500">
+            <span className="flex items-center gap-1">
+              <span>Descuento:</span> {b.motivo ? b.motivo : b.tipos_beneficio.nombre}
+            </span>
+            <span>- {soles(b.tipos_beneficio.valor_por_defecto)}</span>
+          </div>
+        ))}
         {extras.map(e => (
           <div key={e.label} className="flex justify-between text-[11px] font-black uppercase italic text-brand-muted">
             <span>{e.label}</span><span>{soles(e.price)}</span>

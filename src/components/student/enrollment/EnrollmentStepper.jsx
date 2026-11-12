@@ -16,8 +16,10 @@ import StepIndicator from './StepIndicator';
 import StepModalidadSede from './steps/StepModalidadSede';
 import StepHorarioFechas from './steps/StepHorarioFechas';
 import StepCheckout from './steps/StepCheckout';
+import { beneficioService } from '../../../services/beneficio.service';
+import alumnoService from '../../../services/alumno.service';
 
-const EnrollmentStepper = ({ userId, onSuccess }) => {
+const EnrollmentStepper = ({ userId, onSuccess, beneficios }) => {
   const { horarios: horariosRaw, sedes, loading: loadingHorarios } = useCatalogos(['horarios', 'sedes']);
   const horarios = useMemo(() => horariosRaw.filter(h => h.activo), [horariosRaw]);
 
@@ -43,7 +45,16 @@ const EnrollmentStepper = ({ userId, onSuccess }) => {
     [],
     { initialData: [], errorMessage: 'No se pudieron cargar los precios' }
   );
-
+  const { data: planesLegacy } = useFetch(
+    async () => (await catalogoService.getLegacy()).data || [],
+    [],
+    { initialData: [], errorMessage: 'No se pudieron cargar los precios' }
+  );
+  const { data: esAntiguo } = useFetch(
+    async () => await alumnoService.verificarAntiguedad(),
+    [],
+    { initialData: false }
+  )
   // Si el merch falla al cargar, la matrícula sigue funcionando sin el slider.
   const { data: catalogoMerch, refetch: refetchCatalogoMerch } = useFetch(
     () => merchService.getCatalogo(),
@@ -73,9 +84,16 @@ const EnrollmentStepper = ({ userId, onSuccess }) => {
   const hayMerch = quiereMerch && qtyMapToIds(extras.merchQty).length > 0;
   const faltaSedeRecojo = hayMerch && !sedeRecojoId;
 
-  const precioBase = state.modalidad === MODALIDAD.MENSUAL
-    ? precioMensual(planes, derived.horariosElegidos.length)
-    : precioClaseUnica(planes);
+  let precioBase;
+  if (esAntiguo) {
+    precioBase = state.modalidad === MODALIDAD.MENSUAL
+      ? precioMensual(planesLegacy, derived.horariosElegidos.length)
+      : precioClaseUnica(planesLegacy);
+  } else {
+    precioBase = state.modalidad === MODALIDAD.MENSUAL
+      ? precioMensual(planes, derived.horariosElegidos.length)
+      : precioClaseUnica(planes);
+  }
 
   const volver = () => {
     // Tras un rechazo la fecha única elegida ya no sirve: se descarta al volver
@@ -165,7 +183,7 @@ const EnrollmentStepper = ({ userId, onSuccess }) => {
 
       {state.step === 1 && <StepModalidadSede state={state} derived={derived} actions={actions} />}
       {state.step === 2 && <StepHorarioFechas state={state} derived={derived} actions={actions} userId={userId} feriados={feriados} />}
-      {state.step === 3 && <StepCheckout state={state} derived={derived} extras={extras} onExtrasChange={setExtras} catalogoMerch={catalogoMerch} merchDisponible={merchDisponible} ownedMerchCounts={ownedMerchCounts} sedes={sedes} sedeRecojoId={sedeRecojoId} precioBase={precioBase} submitError={submitError} onBack={volver} merchAgotado={merchAgotado} submitting={submitting} onContinuarSinMerch={continuarSinMerch} onRevisarMerch={revisarMerch} />}
+      {state.step === 3 && <StepCheckout state={state} derived={derived} extras={extras} onExtrasChange={setExtras} catalogoMerch={catalogoMerch} merchDisponible={merchDisponible} ownedMerchCounts={ownedMerchCounts} sedes={sedes} sedeRecojoId={sedeRecojoId} precioBase={precioBase} beneficios={beneficios} submitError={submitError} onBack={volver} merchAgotado={merchAgotado} submitting={submitting} onContinuarSinMerch={continuarSinMerch} onRevisarMerch={revisarMerch} />}
 
       <div className="fixed bottom-10 inset-x-0 flex justify-center gap-3 z-[150] px-4 pointer-events-none">
         {state.step > 1 && (

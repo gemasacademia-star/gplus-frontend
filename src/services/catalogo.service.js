@@ -17,5 +17,13 @@ export const catalogoService = {
             throw new Error('Error al obtener planes vigentes');
         }
         return await response.json();
+    },
+
+    getLegacy: async () => {
+        const response = await apiFetch.get(API_ROUTES.CATALOGO.LEGACY);
+        if (!response.ok) {
+            throw new Error('Error al obtener planes LEGACY');
+        }
+        return await response.json();
     }
 };
