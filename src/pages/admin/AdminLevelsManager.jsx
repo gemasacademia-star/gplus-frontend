@@ -123,11 +123,18 @@ const AdminLevelsManager = () => {
                                 </div>
                             </div>
 
-                            <div className="flex items-center justify-between">
-                                <h3 className="font-black text-slate-800 text-lg uppercase italic leading-tight">
-                                    {nivel.nombre}
-                                </h3>
-                                <ChevronRight size={20} className="text-slate-200 group-hover:text-brand-accent group-hover:translate-x-1 transition-all" />
+                            <div className="flex items-center justify-between gap-2">
+                                <div className="min-w-0">
+                                    <h3 className="font-black text-slate-800 text-lg uppercase italic leading-tight">
+                                        {nivel.nombre}
+                                    </h3>
+                                    {nivel.descripcion && (
+                                        <p className="text-xs text-brand-muted mt-1.5 line-clamp-2">
+                                            {nivel.descripcion}
+                                        </p>
+                                    )}
+                                </div>
+                                <ChevronRight size={20} className="shrink-0 text-slate-200 group-hover:text-brand-accent group-hover:translate-x-1 transition-all" />
                             </div>
                         </div>
                     ))}

@@ -4,7 +4,7 @@ import {
     LayoutDashboard, GraduationCap, UserCog, CalendarRange,
     Settings, LogOut, MapPin, BarChart3, DollarSign,
     ChevronDown, History, CheckCircle, Activity,
-    TicketPercent, Megaphone, Ticket, ShieldAlert, Sparkles, Layers, Gift, PackageCheck
+    TicketPercent, Megaphone, Ticket, ShieldAlert, Sparkles, Layers, Gift, PackageCheck, CreditCard
 } from 'lucide-react';
 import { logoutService } from '../services/auth.service';
 import toast from 'react-hot-toast';
@@ -86,6 +86,7 @@ const Sidebar = ({ isOpen, onClose }) => {
                 { icon: Activity, label: "Control de Lesiones", path: "/dashboard/admin/injuries" },
                 { icon: History, label: 'Depurar Recuperaciones', path: '/dashboard/admin/delete-makeups' },
                 { icon: DollarSign, label: 'Catálogo de Precios', path: '/dashboard/admin/catalog' },
+                { icon: CreditCard, label: 'Métodos de Pago', path: '/dashboard/admin/payment-methods' },
                 { icon: Settings, label: 'Configuración', path: '/dashboard/admin/settings' },
             ]
         }

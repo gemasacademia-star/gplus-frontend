@@ -152,6 +152,8 @@ export const API_ROUTES = {
   },
   METODOS_PAGO: {
     BASE: "/metodos-pago",
+    ADMIN: "/metodos-pago/admin",
+    BY_ID: (id) => `/metodos-pago/${id}`,
   },
   COORDINADORES: {
     BASE: "/coordinadores",

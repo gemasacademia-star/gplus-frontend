@@ -5,7 +5,7 @@ import {
     MapPin, CalendarRange, BarChart3, TicketPercent,
     UserCog, GraduationCap, DollarSign, Activity, Settings, LogOut, History,
     Megaphone, Ticket, Sparkles, Layers,
-    Receipt, Gift, PackageCheck
+    Receipt, Gift, PackageCheck, CreditCard
 } from 'lucide-react';
 import { logoutService } from '../services/auth.service';
 import toast from 'react-hot-toast';
@@ -94,6 +94,7 @@ const MobileNavbarAdmin = () => {
                                 <NavLink to="/dashboard/admin/injuries" onClick={toggleMenu} className="flex items-center gap-4 text-blue-100/70 px-3 py-2.5 rounded-xl hover:bg-white/5 text-[12px] font-bold uppercase tracking-wide"><Activity size={16} /> Lesiones</NavLink>
                                 <NavLink to="/dashboard/admin/delete-makeups" onClick={toggleMenu} className="flex items-center gap-4 text-blue-100/70 px-3 py-2.5 rounded-xl hover:bg-white/5 text-[12px] font-bold uppercase tracking-wide"><History size={16} /> Depuración</NavLink>
                                 <NavLink to="/dashboard/admin/catalog" onClick={toggleMenu} className="flex items-center gap-4 text-blue-100/70 px-3 py-2.5 rounded-xl hover:bg-white/5 text-[12px] font-bold uppercase tracking-wide"><DollarSign size={16} /> Catálogo</NavLink>
+                                <NavLink to="/dashboard/admin/payment-methods" onClick={toggleMenu} className="flex items-center gap-4 text-blue-100/70 px-3 py-2.5 rounded-xl hover:bg-white/5 text-[12px] font-bold uppercase tracking-wide"><CreditCard size={16} /> Métodos de Pago</NavLink>
                                 <NavLink to="/dashboard/admin/settings" onClick={toggleMenu} className="flex items-center gap-4 text-blue-100/70 px-3 py-2.5 rounded-xl hover:bg-white/5 text-[12px] font-bold uppercase tracking-wide"><Settings size={16} /> Ajustes</NavLink>
                             </div>
                         </div>
